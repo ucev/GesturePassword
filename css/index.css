@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+:root {
+  font-size: 24px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #BDBDBD;
+}
+
+#main_title {
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 0.8rem;
+  background-color: #EEEEEE;
+}
+
+#gesture_canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+  background-color: #A5D6A7
+}
+
+#gesture_title {
+  text-align: center;
+  font-size: 0.6rem;
+}
+
+#ope_div {
+  padding-top: 30px;
+  padding-bottom: 100px;
+}
+
+.ope_item {
+  margin: 10px 0;
+  padding-left: 30px;
+}
+
+.ope_label {
+  margin-left: 10px;
+  font-size: 0.6rem;
+}
