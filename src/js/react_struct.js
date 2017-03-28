@@ -200,6 +200,7 @@ class GestureCanvas extends React.Component {
 
   __touchEnd() {
     this.mouse = false;
+    this.drawCanvas();
     this.sendGesture();
   }
 
