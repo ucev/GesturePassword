@@ -20479,16 +20479,16 @@ var GestureCanvas = function (_React$Component4) {
 
     _this4.styles = {
       "chosen": {
-        fill: "#D84315",
-        stroke: "#FF5722"
+        fill: "#FFA726",
+        stroke: "#FC9207"
       },
       "unchosen": {
         fill: "#FFF",
-        stroke: "#BDBDBD"
+        stroke: "#C2C2C2"
       },
       "line": {
-        fill: "#F00",
-        stroke: "#F00"
+        fill: "#DF3134",
+        stroke: "#DF3134"
       }
     };
     _this4.chosenState = [[false, false, false], [false, false, false], [false, false, false]];
@@ -20611,8 +20611,8 @@ var GestureCanvas = function (_React$Component4) {
     }
   }, {
     key: 'touchStart',
-    value: function touchStart(touches) {
-      var touch = touches[0];
+    value: function touchStart(e) {
+      var touch = e.touches[0];
       this.__touchStart(touch.pageX, touch.pageY);
     }
   }, {
@@ -20622,9 +20622,9 @@ var GestureCanvas = function (_React$Component4) {
     }
   }, {
     key: 'touchMove',
-    value: function touchMove(touches) {
-      var touch = touches[0];
-      this.__touchStart(touch.pageX, touch.pageY);
+    value: function touchMove(e) {
+      var touch = e.touches[0];
+      this.__touchMove(touch.pageX, touch.pageY);
     }
   }, {
     key: '__touchStart',
@@ -20983,7 +20983,7 @@ var GesturePassword = function (_React$Component6) {
     value: function render() {
       return React.createElement(
         'div',
-        null,
+        { id: 'gesture_div' },
         React.createElement(GestureCanvas, { key: this.state.canvasKey, result: this.gestureResult, drawable: this.state.drawable }),
         React.createElement(GestureTitle, { title: this.title[this.state.subType] }),
         React.createElement(GestureOpeBar, { opeType: this.state.opeType, click: this.onOpeTypeChange })

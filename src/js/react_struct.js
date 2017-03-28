@@ -49,16 +49,16 @@ class GestureCanvas extends React.Component {
     super(props);
     this.styles = {
       "chosen": {
-        fill: "#D84315",
-        stroke: "#FF5722"
+        fill: "#FFA726",
+        stroke: "#FC9207"
       },
       "unchosen": {
         fill: "#FFF",
-        stroke: "#BDBDBD"
+        stroke: "#C2C2C2"
       },
       "line": {
-        fill: "#F00",
-        stroke: "#F00"
+        fill: "#DF3134",
+        stroke: "#DF3134"
       }
     }
     this.chosenState = [
@@ -469,7 +469,7 @@ class GesturePassword extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div id = "gesture_div">
         <GestureCanvas key = {this.state.canvasKey} result = {this.gestureResult} drawable = {this.state.drawable}/>
         <GestureTitle title = {this.title[this.state.subType]}/>
         <GestureOpeBar opeType = {this.state.opeType} click = {this.onOpeTypeChange}/>
