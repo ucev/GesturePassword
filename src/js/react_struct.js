@@ -185,7 +185,7 @@ class GestureCanvas extends React.Component {
     this.__touchEnd();
   }
 
-  touchMove(touches) {
+  touchMove(e) {
     var touch = e.touches[0];
     this.__touchMove(touch.pageX, touch.pageY);
   }
