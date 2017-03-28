@@ -72,6 +72,12 @@ class GestureCanvas extends React.Component {
     this.mouseDown = this.mouseDown.bind(this);
     this.mouseUp = this.mouseUp.bind(this);
     this.mouseMove = this.mouseMove.bind(this);
+    this.touchStart = this.touchStart.bind(this);
+    this.touchEnd = this.touchEnd.bind(this);
+    this.touchMove = this.touchMove.bind(this);
+    this.__touchStart = this.__touchStart.bind(this);
+    this.__touchEnd = this.__touchEnd.bind(this);
+    this.__touchMove = this.__touchMove.bind(this);
     this.convertPosX = this.convertPosX.bind(this);
     this.convertPosY = this.convertPosY.bind(this);
     this.validPoint = this.validPoint.bind(this);
@@ -159,22 +165,48 @@ class GestureCanvas extends React.Component {
   }
 
   mouseDown(e) {
-    if (this.props.drawable) {
-      this.mouse = true;
-      this.currX = this.convertPosX(e.pageX);
-      this.currY = this.convertPosY(e.pageY);
-    }
+    this.__touchStart(e.pageX, e.pageY);
   }
 
   mouseUp(e) {
+    this.__touchEnd();
+  }
+
+  mouseMove(e) {
+    this.__touchMove(e.pageX, e.pageY);
+  }
+
+  touchStart(touches) {
+    var touch = touches[0];
+    this.__touchStart(touch.pageX, touch.pageY);
+  }
+
+  touchEnd() {
+    this.__touchEnd();
+  }
+
+  touchMove(touches) {
+    var touch = touches[0];
+    this.__touchStart(touch.pageX, touch.pageY);
+  }
+
+  __touchStart(x, y) {
+    if (this.props.drawable) {
+      this.mouse = true;
+      this.currX = this.convertPosX(x);
+      this.currY = this.convertPosY(y);
+    }
+  }
+
+  __touchEnd() {
     this.mouse = false;
     this.sendGesture();
   }
 
-  mouseMove(e) {
+  __touchMove(x, y) {
     if (this.mouse && this.props.drawable) {
-      var newX = this.convertPosX(e.pageX);
-      var newY = this.convertPosY(e.pageY);
+      var newX = this.convertPosX(x);
+      var newY = this.convertPosY(y);
       var canvas = this.canvas;
       var context = canvas.getContext("2d");
       this.validPoint(newX, newY);
@@ -254,7 +286,7 @@ class GestureCanvas extends React.Component {
 
   render() {
     return (
-      <canvas ref = {(canvas) => {this.canvas = canvas;}} id = "gesture_canvas" onMouseMove = {this.mouseMove} onMouseDown = {this.mouseDown} onMouseUp = {this.mouseUp}></canvas>
+      <canvas ref = {(canvas) => {this.canvas = canvas;}} id = "gesture_canvas" onMouseMove = {this.mouseMove} onMouseDown = {this.mouseDown} onMouseUp = {this.mouseUp} onMouseLeave = {this.mouseUp} onTouchStart = {this.touchStart} onTouchMove = {this.touchMove} onTouchEnd = {this.touchEnd} onTouchCancel = {this.touchEnd}></canvas>
     )
   }
 }

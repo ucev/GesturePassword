@@ -20498,6 +20498,12 @@ var GestureCanvas = function (_React$Component4) {
     _this4.mouseDown = _this4.mouseDown.bind(_this4);
     _this4.mouseUp = _this4.mouseUp.bind(_this4);
     _this4.mouseMove = _this4.mouseMove.bind(_this4);
+    _this4.touchStart = _this4.touchStart.bind(_this4);
+    _this4.touchEnd = _this4.touchEnd.bind(_this4);
+    _this4.touchMove = _this4.touchMove.bind(_this4);
+    _this4.__touchStart = _this4.__touchStart.bind(_this4);
+    _this4.__touchEnd = _this4.__touchEnd.bind(_this4);
+    _this4.__touchMove = _this4.__touchMove.bind(_this4);
     _this4.convertPosX = _this4.convertPosX.bind(_this4);
     _this4.convertPosY = _this4.convertPosY.bind(_this4);
     _this4.validPoint = _this4.validPoint.bind(_this4);
@@ -20591,24 +20597,56 @@ var GestureCanvas = function (_React$Component4) {
   }, {
     key: 'mouseDown',
     value: function mouseDown(e) {
-      if (this.props.drawable) {
-        this.mouse = true;
-        this.currX = this.convertPosX(e.pageX);
-        this.currY = this.convertPosY(e.pageY);
-      }
+      this.__touchStart(e.pageX, e.pageY);
     }
   }, {
     key: 'mouseUp',
     value: function mouseUp(e) {
-      this.mouse = false;
-      this.sendGesture();
+      this.__touchEnd();
     }
   }, {
     key: 'mouseMove',
     value: function mouseMove(e) {
+      this.__touchMove(e.pageX, e.pageY);
+    }
+  }, {
+    key: 'touchStart',
+    value: function touchStart(touches) {
+      var touch = touches[0];
+      this.__touchStart(touch.pageX, touch.pageY);
+    }
+  }, {
+    key: 'touchEnd',
+    value: function touchEnd() {
+      this.__touchEnd();
+    }
+  }, {
+    key: 'touchMove',
+    value: function touchMove(touches) {
+      var touch = touches[0];
+      this.__touchStart(touch.pageX, touch.pageY);
+    }
+  }, {
+    key: '__touchStart',
+    value: function __touchStart(x, y) {
+      if (this.props.drawable) {
+        this.mouse = true;
+        this.currX = this.convertPosX(x);
+        this.currY = this.convertPosY(y);
+      }
+    }
+  }, {
+    key: '__touchEnd',
+    value: function __touchEnd() {
+      this.mouse = false;
+      this.sendGesture();
+    }
+  }, {
+    key: '__touchMove',
+    value: function __touchMove(x, y) {
       if (this.mouse && this.props.drawable) {
-        var newX = this.convertPosX(e.pageX);
-        var newY = this.convertPosY(e.pageY);
+        var newX = this.convertPosX(x);
+        var newY = this.convertPosY(y);
         var canvas = this.canvas;
         var context = canvas.getContext("2d");
         this.validPoint(newX, newY);
@@ -20716,7 +20754,7 @@ var GestureCanvas = function (_React$Component4) {
 
       return React.createElement('canvas', { ref: function ref(canvas) {
           _this5.canvas = canvas;
-        }, id: 'gesture_canvas', onMouseMove: this.mouseMove, onMouseDown: this.mouseDown, onMouseUp: this.mouseUp });
+        }, id: 'gesture_canvas', onMouseMove: this.mouseMove, onMouseDown: this.mouseDown, onMouseUp: this.mouseUp, onMouseLeave: this.mouseUp, onTouchStart: this.touchStart, onTouchMove: this.touchMove, onTouchEnd: this.touchEnd, onTouchCancel: this.touchEnd });
     }
   }]);
 
