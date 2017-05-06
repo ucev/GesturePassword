@@ -20517,9 +20517,28 @@ var GestureCanvas = function (_React$Component4) {
   _createClass(GestureCanvas, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var that = this;
+      this.preOnResize = window.onresize;
+      window.onresize = function (e) {
+        if (typeof this.preOnResize == "function") this.preOnResize();
+        that.__init();
+      };
+      this.__init();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.onresize = this.preOnResize;
+    }
+  }, {
+    key: '__init',
+    value: function __init() {
       var canvas = this.canvas;
-      var width = canvas.width;
-      var height = canvas.height;
+      var s = canvas.ownerDocument.defaultView.getComputedStyle(canvas);
+      var width = parseInt(s.width);
+      var height = parseInt(s.height);
+      canvas.setAttribute("width", width);
+      canvas.setAttribute("height", height);
       var min = width < height ? width : height;
       var blen = min / 4;
       var points = [];
@@ -20564,6 +20583,8 @@ var GestureCanvas = function (_React$Component4) {
   }, {
     key: 'drawCanvas',
     value: function drawCanvas() {
+      var drawEnd = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
       var canvas = this.canvas;
       var context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -20590,7 +20611,9 @@ var GestureCanvas = function (_React$Component4) {
           p = this.gesturePoints[i];
           context.lineTo(this.points[p[0]][p[1]][0], this.points[p[0]][p[1]][1]);
         }
-        context.lineTo(this.currX, this.currY);
+        if (drawEnd) {
+          context.lineTo(this.currX, this.currY);
+        }
         context.stroke();
       }
     }
@@ -20639,6 +20662,7 @@ var GestureCanvas = function (_React$Component4) {
     key: '__touchEnd',
     value: function __touchEnd() {
       this.mouse = false;
+      this.drawCanvas(false);
       this.sendGesture();
     }
   }, {
@@ -20839,7 +20863,6 @@ var GesturePassword = function (_React$Component6) {
   }, {
     key: 'gestureResult',
     value: function gestureResult(points) {
-      console.log(points);
       switch (this.state.opeType) {
         case "set":
           switch (this.state.subType) {

@@ -88,9 +88,27 @@ class GestureCanvas extends React.Component {
   }
 
   componentDidMount() {
+    var that = this;
+    this.preOnResize = window.onresize;
+    window.onresize = function(e) {
+      if (typeof this.preOnResize == "function") 
+        this.preOnResize();
+      that.__init();
+    }
+    this.__init();
+  }
+
+  componentWillUnmount() {
+    window.onresize = this.preOnResize;
+  }
+
+  __init() {
     var canvas = this.canvas;
-    var width = canvas.width;
-    var height = canvas.height;
+    var s = canvas.ownerDocument.defaultView.getComputedStyle(canvas);
+    var width = parseInt(s.width);
+    var height = parseInt(s.height);
+    canvas.setAttribute("width", width);
+    canvas.setAttribute("height", height);
     var min = width < height ? width : height;
     var blen = min / 4;
     var points = [];
@@ -132,7 +150,7 @@ class GestureCanvas extends React.Component {
     this.drawCanvas();
   }
 
-  drawCanvas() {
+  drawCanvas(drawEnd=true) {
     var canvas = this.canvas;
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -159,7 +177,9 @@ class GestureCanvas extends React.Component {
         p = this.gesturePoints[i];
         context.lineTo(this.points[p[0]][p[1]][0], this.points[p[0]][p[1]][1]);
       }
-      context.lineTo(this.currX, this.currY);
+      if (drawEnd) {
+        context.lineTo(this.currX, this.currY);
+      }
       context.stroke();
     }
   }
@@ -200,7 +220,7 @@ class GestureCanvas extends React.Component {
 
   __touchEnd() {
     this.mouse = false;
-    this.drawCanvas();
+    this.drawCanvas(false);
     this.sendGesture();
   }
 
@@ -343,7 +363,6 @@ class GesturePassword extends React.Component {
     }));
   }
   gestureResult(points) {
-    console.log(points);
     switch(this.state.opeType) {
       case "set":
         switch(this.state.subType) {
