@@ -1,6 +1,6 @@
 # 2017前端星计划作业--手势密码
 
-[在线demo](https://ucev.github.io/gesture/index.html)
+[在线demo](https://ucev.github.io/GesturePassword/)
 
 因为本题涉及手势操作及其判断，交互很复杂。所以我就先画了个流程图，理清思路  
 ![流程图](http://www.ilovecrystal.com.cn/myres/gesture.png)

@@ -4,6 +4,8 @@
   "description": "2017前端星计划作业",
   "main": "index.js",
   "scripts": {
+    "build": "gulp build",
+    "dev": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,5 +31,9 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0"
   }
 }

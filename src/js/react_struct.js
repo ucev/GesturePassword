@@ -1,6 +1,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
+const debounce = require('./utils/debounce');
+
 class Title extends React.Component {
   render () {
     return (
@@ -26,7 +28,7 @@ class GestureOpeItem extends React.Component {
     return (
       <p className = "ope_item">
         <input className = "ope_radio" id = {id} type = "radio" name = "ope_type" checked = {isChecked} onChange = {this.onInputClicked}/>
-        <label className = "ope_label" for = {id}>{this.props.title}</label>
+        <label className = "ope_label">{this.props.title}</label>
       </p>
     )
   }
@@ -499,6 +501,14 @@ class GesturePassword extends React.Component {
 }
 
 class WebLayout extends React.Component {
+  componentDidMount() {
+    var func = debounce(500, function() {
+      window.location.reload()
+    })
+    window.addEventListener('resize', function() {
+      func()
+    })
+  }
   render() {
     return (
       <div>
